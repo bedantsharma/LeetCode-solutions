@@ -1,4 +1,7 @@
 # Definition for singly-linked list.
+from turtle import right
+
+
 class ListNode:
     def __init__(self, val=0, next=None):
         self.val = val
@@ -9,34 +12,39 @@ class TreeNode:
         self.val = val
         self.left = left
         self.right = right
-from typing import Optional, List
+from typing import Optional
 
 
 class Solution:
-    def listToBst(self,list: Optional[List[int]]) -> Optional[TreeNode]:
-        if not list or len(list) == 0:
-            return None
-        n = len(list)
-        if n == 1:
-            return TreeNode(list[0])
-        if n == 2:
-            t1 = TreeNode(list[0])
-            t2 = TreeNode(list[1])
-            t2.left = t1
-            return t2
-        m = TreeNode(list[n//2])
-        m.left = self.listToBst(list[:n//2])
-        m.right = self.listToBst(list[n//2:])
-        return m
-
     def sortedListToBST(self, head: Optional[ListNode]) -> Optional[TreeNode]:
-        arr = []
-        while head :
-            arr.append(head.val)
+        n = 0
+        curr = head
+        while curr:
+            n += 1
+            curr = curr.next
+
+        def buildTree(n: int) -> Optional[TreeNode] :
+            nonlocal head
+
+            if n <= 0:
+                return None
+
+            left = buildTree(n//2) # this will consume the first n//2 elements of the linklist
+            root= TreeNode(head.val)
             head = head.next
-        return self.listToBst(arr)
+            rightSide = n - 1 - n//2
+            right = buildTree(rightSide)
+            root.left = left
+            root.right = right
+            return root
+        return buildTree(n)
 
 if __name__ == '__main__':
-    arr = [-10,-3,0,5,9]
+    arr = [1,2,3]
+    head = ListNode(arr[0])
+    curr = head
+    for val in arr[1:]:
+        curr.next = ListNode(val)
+        curr = curr.next
     s = Solution()
-    bst = s.listToBst(arr)
+    s.sortedListToBST(head)
