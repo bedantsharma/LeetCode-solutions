@@ -35,3 +35,8 @@ class Solution:
             arr.append(head.val)
             head = head.next
         return self.listToBst(arr)
+
+if __name__ == '__main__':
+    arr = [-10,-3,0,5,9]
+    s = Solution()
+    bst = s.listToBst(arr)
