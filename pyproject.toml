@@ -12,5 +12,19 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "pytest>=9.1.1",
+    "pytest-timeout>=2.4.0",
     "snakeviz>=2.2.2",
 ]
+
+[tool.pytest.ini_options]
+# Repo root has no __init__.py packages, so make it importable as
+# `Solutions.<module>` regardless of the directory pytest is invoked from.
+pythonpath = ["."]
+testpaths = ["tests"]
+# Some solutions under Solutions/ are unfinished and can infinite-loop
+# (e.g. Search2DMatrix.py's row-search loop never recomputes `mid`).
+# We never fix the solution code (see CLAUDE.md), so a per-test timeout
+# turns a hang into a clear, reported failure instead of freezing the run.
+timeout = 5
+timeout_method = "signal"
