@@ -2,7 +2,7 @@ from typing import List
 
 class Solution:
     def peopleIndexes(self, favoriteCompanies: List[List[str]]) -> List[int]:
-        sfc = [(set(x),i)for i,x in enumerate(favoriteCompanies)]
+        sfc :List[tuple[set,int]]= [(set(x),i)for i,x in enumerate(favoriteCompanies)]
         n = len(favoriteCompanies)
         answer = []
         sfc.sort(key=lambda x: len(x[0]))
